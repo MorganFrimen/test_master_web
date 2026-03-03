@@ -1,0 +1,16 @@
+# Игнорируем настройки Visual Studio
+.vs/
+*.user
+*.suo
+*.db
+*.sqlite
+*.sqlite*
+
+# Игнорируем виртуальную среду (обязательно!)
+venv/
+env/
+ENV/
+
+# Игнорируем кэш Python
+__pycache__/
+*.pyc

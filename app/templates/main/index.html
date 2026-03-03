@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>TestMaster v0.2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1A1A1A;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .card {
+            background: #2B2B2B;
+            border-radius: 15px;
+            padding: 30px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            color: #2ECC71;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Welcome, {{ name }}!</h1>
+        <p>Статус сервера: Работает стабильно</p>
+        <hr>
+        <button onclick="alert('Тестов пока нет, но скоро будут!')">Начать тест</button>
+    </div>
+</body>
+</html>
