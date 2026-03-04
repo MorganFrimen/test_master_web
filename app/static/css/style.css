@@ -1,0 +1,138 @@
+/* app/static/css/style.css */
+
+/* 1. ПЕРЕМЕННЫЕ ЦВЕТОВ (удобно менять весь дизайн сразу) */
+:root {
+    --bg-dark: #1A1A1A; /* Глубокий фон */
+    --card-bg: #2B2B2B; /* Фон карточек */
+    --input-bg: #3D3D3D; /* Фон полей ввода */
+    --primary-blue: #3498DB; /* Основной синий */
+    --primary-green: #2ECC71; /* Основной зеленый (успех) */
+    --accent-red: #E74C3C; /* Красный (ошибки/админ) */
+    --text-white: #FFFFFF;
+    --text-gray: #AAAAAA;
+}
+
+/* 2. ОБЩИЕ СТИЛИ ТЕЛА */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Центрирование по вертикали */
+}
+
+/* 3. КАРТОЧКИ (ЛОГИН, РЕГИСТРАЦИЯ, ГЛАВНАЯ) */
+.card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+    text-align: center;
+    border: 1px solid #3d3d3d;
+}
+
+.admin-zone {
+    border: 2px dashed var(--accent-red);
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(231, 76, 60, 0.05);
+}
+
+/* 4. ПОЛЯ ВВОДА (INPUTS) */
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: var(--input-bg);
+    color: white;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+    }
+
+/* 5. КНОПКИ (MODERN BUTTONS) */
+.btn-modern {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    margin: 10px 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-blue {
+    background: linear-gradient(135deg, #3498DB 0%, #2980B9 100%);
+    color: white !important;
+}
+
+.btn-green {
+    background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+    color: white !important;
+}
+
+.btn-gray {
+    background: #555;
+    color: white !important;
+}
+
+.btn-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+/* 6. ТЕКСТОВЫЕ ЭЛЕМЕНТЫ */
+h1, h2 {
+    margin-top: 0;
+    color: var(--primary-green);
+}
+
+.role-tag {
+    background: var(--primary-green);
+    color: black;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.footer-link {
+    display: block;
+    margin-top: 20px;
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+    .footer-link:hover {
+        color: var(--primary-blue);
+    }
+
+/* 7. ФЛЕШ-СООБЩЕНИЯ (ОШИБКИ) */
+.flash-messages {
+    color: var(--accent-red);
+    font-size: 14px;
+    margin-bottom: 15px;
+}

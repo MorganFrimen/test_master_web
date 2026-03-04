@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<h1 style="color: var(--primary-blue);">Регистрация</h1>
+<form method="POST">
+    <input type="text" name="username" placeholder="Придумайте логин" required>
+    <input type="password" name="password" placeholder="Придумайте пароль" required>
+    <button type="submit" class="btn-modern btn-blue">✨ Создать аккаунт</button>
+</form>
+
+<a href="{{ url_for('auth.login') }}" class="footer-link">
+    Уже есть аккаунт? Войти
+</a>
+{% endblock %}

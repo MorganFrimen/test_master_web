@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<h1>Вход</h1>
+<form method="POST">
+    <input type="text" name="username" placeholder="Логин" required>
+    <input type="password" name="password" placeholder="Пароль" required>
+    <button type="submit" class="btn-modern btn-green">Войти в систему</button>
+</form>
+
+<a href="{{ url_for('auth.register') }}" class="footer-link">
+    Впервые у нас? Создать аккаунт
+</a>
+{% endblock %}

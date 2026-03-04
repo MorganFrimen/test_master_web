@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -11,6 +12,8 @@ login_manager = LoginManager()
 def create_app():
     """Функция-фабрика для создания и настройки приложения"""
     app = Flask(__name__)
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'project.db')
 
     # 2. Настройки (Конфигурация)
     app.config['SECRET_KEY'] = 'dev-key-777'
