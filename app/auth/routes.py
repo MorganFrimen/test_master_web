@@ -1,41 +1,35 @@
-# app/auth/routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
-from app import db # или просто from app import db, если он там
+from app import db
 
 auth_bp = Blueprint('auth', __name__)
 
+# --- ЛОГИКА ВХОДА (LOGIN) ---
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    # Если пользователь уже вошел, ему не нужно регистрироваться снова
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
 
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
 
-        # 1. Проверяем, не занят ли логин
-        if User.query.filter_by(username=username).first():
-            return "<h1>Ошибка</h1><p>Этот логин уже занят. <a href='/register'>Назад</a></p>"
-
-        # 2. Создаем нового пользователя (роль 'user' ставится в модели по умолчанию)
-        new_user = User(username=username)
-        new_user.set_password(password) # Хешируем!
+        # ПРОВЕРКА: Если юзер есть и пароль подошел — ЛОГИНИМ
+        if user and user.check_password(password):
+            login_user(user)
+            return redirect(url_for('main.index'))
         
-        db.session.add(new_user)
-        db.session.commit()
-
-        # 3. После регистрации сразу логиним пользователя
-        login_user(new_user)
-        return redirect(url_for('main.index'))
+        # Если не подошел — просто перерисовываем страницу с ошибкой
+        flash("Неверный логин или пароль") 
+        return render_template('auth/login.html', error="Неверный логин или пароль")
 
     return render_template('auth/login.html')
 
+# --- ЛОГИКА РЕГИСТРАЦИИ (REGISTER) ---
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    # Если пользователь уже вошел, отправляем на главную
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
 
@@ -43,25 +37,22 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # Проверка: не занят ли логин
+        # ВОТ ЗДЕСЬ должна быть проверка на "Логин занят"
         if User.query.filter_by(username=username).first():
-            return "<h1>Ошибка</h1><p>Логин занят. <a href='/auth/register'>Назад</a></p>"
+            return render_template('auth/register.html', error="Этот логин уже занят")
 
-        # Создаем нового пользователя (роль 'user' по умолчанию в модели)
         new_user = User(username=username)
         new_user.set_password(password)
-        
         db.session.add(new_user)
         db.session.commit()
 
-        # Сразу логиним новичка
-        from flask_login import login_user
         login_user(new_user)
         return redirect(url_for('main.index'))
 
     return render_template('auth/register.html')
 
 @auth_bp.route('/logout')
+@login_required # Доступно только тем, кто вошел
 def logout():
-    logout_user()
-    return redirect(url_for('main.index'))
+    logout_user() # Flask-Login удаляет сессию
+    return redirect(url_for('auth.login')) # Перенаправляем на вход
