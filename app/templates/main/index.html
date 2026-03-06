@@ -12,7 +12,7 @@
 <div class="admin-zone">
     <h3 style="color: var(--accent-red); margin-top: 0;">👑 Панель управления</h3>
     <p style="font-size: 14px; color: var(--text-gray);">Вы можете управлять тестами и пользователями.</p>
-    <a href="#" class="btn-modern btn-blue">Добавить тест</a>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn-modern btn-blue">Добавить тест</a>
 </div>
         {% else %}
 <div class="user-zone">

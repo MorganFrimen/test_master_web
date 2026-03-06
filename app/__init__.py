@@ -24,7 +24,7 @@ def create_app():
     # 3. Инициализация расширений внутри приложения
     db.init_app(app)
     login_manager.init_app(app)
-    
+
     # Указываем Flask-Login, куда перенаправлять гостя, если он лезет на закрытую страницу
     login_manager.login_view = 'auth.login'
     login_manager.login_message = "Пожалуйста, войдите в систему."
@@ -33,9 +33,17 @@ def create_app():
     # Мы импортируем их ВНУТРИ функции, чтобы избежать циклической зависимости
     from app.auth.routes import auth_bp
     from app.main.routes import main_bp
+    from app.admin.routes import admin_bp
     from app import models 
 
-    app.register_blueprint(auth_bp)
+    # Для авторизации все ссылки будут начинаться с /auth/...
+    app.register_blueprint(auth_bp, url_prefix='/auth') 
+
+    # Для админки все ссылки будут начинаться с /admin/...
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
+    # Для главной страницы оставляем без префикса (просто /)
     app.register_blueprint(main_bp)
+    
 
     return app

@@ -53,3 +53,23 @@ class TestResult(db.Model):
 
     def __repr__(self):
         return f'<Result {self.score}/{self.total_questions} by User {self.user_id}>'
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
+    
+    # Тип вопроса: 'single' (один ответ) или 'multi' (несколько)
+    q_type = db.Column(db.String(10), default='single') 
+
+    # Связь с ответами (один ко многим)
+    options = db.relationship('Option', backref='question', lazy='dynamic', cascade="all, delete-orphan")
+
+class Option(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(200), nullable=False)
+    
+    # Флаг: является ли этот конкретный вариант правильным
+    is_correct = db.Column(db.Boolean, default=False)
+    
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
