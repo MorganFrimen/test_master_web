@@ -2,35 +2,28 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
+<div style="padding: 20px;">
+    <h1>🚀 TestMaster</h1>
+    <p style="color: var(--text-gray); font-size: 18px;">
+        Система профессионального тестирования персонала
+    </p>
+
     {% if current_user.is_authenticated %}
-<h1>Привет, {{ current_user.username }}!</h1>
-<span class="role-tag">{{ current_user.role }}</span>
-
-<hr style="border: 0; border-top: 1px solid #3d3d3d; margin: 20px 0;">
-
+    <div style="margin-top: 30px;">
+        <p>Вы вошли как <b>{{ current_user.username }}</b></p>
         {% if current_user.role == 'admin' %}
-<div class="admin-zone">
-    <h3 style="color: var(--accent-red); margin-top: 0;">👑 Панель управления</h3>
-    <p style="font-size: 14px; color: var(--text-gray);">Вы можете управлять тестами и пользователями.</p>
-    <a href="{{ url_for('admin.dashboard') }}" class="btn-modern btn-blue">Добавить тест</a>
-</div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn-modern btn-blue">Перейти в панель управления</a>
         {% else %}
-<div class="user-zone">
-    <h3>📝 Доступные тесты</h3>
-    <p style="color: var(--text-gray);">Здесь появится список ваших тестов.</p>
-    <a href="#" class="btn-modern btn-green">Начать первый тест</a>
-</div>
+        <a href="{{ url_for('main.available_tests') }}" class="btn-modern btn-green">Начать тестирование</a>
         {% endif %}
-
-<br>
-<a href="{{ url_for('auth.logout') }}" class="btn-modern btn-gray" style="font-size: 12px;">Выйти из системы</a>
-
+    </div>
     {% else %}
-<h1>TestMaster</h1>
-<p style="color: var(--text-gray);">Система тестирования</p>
-<div style="margin-top: 30px;">
-    <a href="{{ url_for('auth.login') }}" class="btn-modern btn-green">Войти</a>
-    <a href="{{ url_for('auth.register') }}" class="btn-modern btn-blue">Регистрация</a>
-</div>
+    <div style="margin-top: 40px;">
+        <a href="{{ url_for('auth.login') }}" class="btn-modern btn-green">Войти в систему</a>
+        <p style="margin-top: 20px; font-size: 14px;">
+            Еще нет аккаунта? <a href="{{ url_for('auth.register') }}" style="color: var(--primary-blue);">Зарегистрироваться</a>
+        </p>
+    </div>
     {% endif %}
+</div>
 {% endblock %}

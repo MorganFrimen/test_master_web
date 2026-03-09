@@ -1,6 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Вход{% endblock %}
+{% block title %}Панель управления{% endblock %}
 
 {% block content %}
-<h1>Тесты</h1>
+<h1>👑 Панель администратора</h1>
+<p style="color: var(--text-gray);">Управление системой тестирования</p>
+
+<div class="admin-zone" style="border-color: var(--primary-blue); background: rgba(52, 152, 219, 0.05);">
+    <h3>📝 Управление тестами</h3>
+    <p>Сейчас в базе тестов: <b>{{ tests|length }}</b></p>
+    <a href="{{ url_for('admin.create_test') }}" class="btn-modern btn-blue">➕ Создать новый тест</a>
+</div>
+
+<div class="admin-zone">
+    <h3>👥 Пользователи</h3>
+    <p>Контроль учетных записей сотрудников</p>
+    <a href="{{ url_for('admin.manage_users') }}" class="btn-modern btn-green">👀 Просмотреть всех</a>
+</div>
+
+<br>
+<a href="{{ url_for('main.index') }}" class="footer-link">На главную страницу</a>
 {% endblock %}

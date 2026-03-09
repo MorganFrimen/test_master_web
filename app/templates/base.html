@@ -9,6 +9,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="logo">🚀 TestMaster</a>
+
+            <div class="nav-links">
+                {% if current_user.is_authenticated %}
+
+                {% if current_user.role == 'admin' %}
+                <!-- Ссылки для АДМИНА -->
+                <a href="{{ url_for('admin.dashboard') }}">📊 Дашборд</a>
+                <a href="{{ url_for('admin.manage_users') }}">👥 Юзеры</a>
+                {% else %}
+                <!-- Ссылки для ЮЗЕРА -->
+                <a href="{{ url_for('main.available_tests') }}">📝 Мои тесты</a>
+                {% endif %}
+
+                <!-- Общие ссылки для профиля -->
+                <a href="{{ url_for('main.profile') }}" class="profile-link">👤 Профиль</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn-logout">Выход</a>
+
+                {% else %}
+                <a href="{{ url_for('auth.login') }}">Вход</a>
+                <a href="{{ url_for('auth.register') }}">Регистрация</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
     <div class="card">
         {% block content %}{% endblock %}
     </div>
