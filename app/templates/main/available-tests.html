@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Мои тесты{% endblock %}
+
+{% block content %}
+<h1>📝 Доступные тесты</h1>
+<p style="color: var(--text-gray);">Выберите тест для прохождения:</p>
+
+<div style="margin-top: 30px;">
+    <!-- ПРОВЕРЬ ЭТОТ БЛОК: цикл ДОЛЖЕН закрываться до конца блока content -->
+    {% if tests %}
+    {% for test in tests %}
+    <div class="admin-zone" style="border-color: var(--primary-green); background: rgba(46, 204, 113, 0.05); margin-bottom: 15px;">
+        <h3>{{ test.title }}</h3>
+        <p style="font-size: 14px;">{{ test.description }}</p>
+        <a href="#" class="btn-modern btn-green">Начать прохождение</a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>На данный момент доступных тестов нет.</p>
+    {% endif %}
+</div>
+
+<a href="{{ url_for('main.index') }}" class="footer-link">← На главную</a>
+{% endblock %}

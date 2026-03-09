@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+
 # 1. Создаем объекты расширений вне функции. 
 # Это нужно, чтобы другие модули (models.py, routes.py) могли их импортировать, 
 # не вызывая само приложение.
@@ -43,7 +44,6 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix='/admin')
 
     # Для главной страницы оставляем без префикса (просто /)
-    app.register_blueprint(main_bp)
-    
+    app.register_blueprint(main_bp)  
 
     return app
