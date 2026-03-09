@@ -36,8 +36,7 @@ def delete_profile():
     db.session.commit()
     return redirect(url_for('auth.logout'))
 
-@main_bp.route('/available-tests') # Используй дефис, это стандарт веба
+@main_bp.route('/available-tests')
 @login_required
 def available_tests():
-    # Передаем пустой список, чтобы цикл в HTML не падал
     return render_template('main/available-tests.html', tests=[])
