@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import db
 
@@ -15,14 +15,30 @@ def index():
 def profile():
     return render_template('main/profile.html')
 
-@main_bp.route('/profile/change-password', methods=['POST'])
+@main_bp.route('/profile/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    new_pass = request.form.get('new_password')
-    current_user.set_password(new_pass)
-    db.session.commit()
-    flash("Пароль успешно изменен!")
-    return redirect(url_for('main.profile'))
+    if request.method == 'POST':
+        old_pass = request.form.get('old_password')
+        new_pass = request.form.get('new_password')
+        confirm_pass = request.form.get('confirm_password')
+
+        # 1. Проверяем старый пароль
+        if not current_user.check_password(old_pass):
+            return render_template('main/change_password.html', error="Неверный текущий пароль")
+
+        # 2. Проверяем совпадение новых паролей
+        if new_pass != confirm_pass:
+            return render_template('main/change_password.html', error="Новые пароли не совпадают")
+
+        # 3. Сохраняем (метод set_password сам захеширует новый пароль)
+        current_user.set_password(new_pass)
+        db.session.commit()
+        
+        # Можно добавить сообщение об успехе, но пока просто редирект
+        return redirect(url_for('main.profile'))
+
+    return render_template('main/change_password.html')
 
 @main_bp.route('/profile/delete', methods=['POST'])
 @login_required

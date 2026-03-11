@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h1>👤 Личный кабинет</h1>
+    <div style="margin-bottom: 20px;">
+        <p style="font-size: 18px; margin: 5px 0;">Логин: <b>{{ current_user.username }}</b></p>
+        <span class="role-tag">{{ current_user.role }}</span>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #3d3d3d; margin: 25px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+        <!-- Ссылка на смену пароля -->
+        <a href="{{ url_for('main.change_password') }}" class="btn-modern btn-blue" style="width: 250px;">🔐 Сменить пароль</a>
+
+        <!-- Кнопка удаления (только для обычных юзеров, админ себя не удаляет здесь) -->
+        {% if current_user.role != 'admin' %}
+        <a href="#" class="btn-modern btn-gray" style="width: 250px; background: var(--accent-red);">🗑️ Удалить аккаунт</a>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('main.index') }}" class="footer-link">← Вернуться на главную</a>
+    </div>
+</div>
+{% endblock %}
