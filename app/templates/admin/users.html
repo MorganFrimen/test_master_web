@@ -36,9 +36,22 @@
                     </form>
                     {% endif %}
 
-                    <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Удалить пользователя {{ user.username }}? Все его результаты тестов исчезнут.');">
-                        <button class="btn-modern btn-gray" style="padding: 5px 10px; font-size: 11px; background: var(--accent-red);">Удалить</button>
-                    </form>
+                    <td style="padding: 10px;">
+                        {% if user.is_active_account %}
+                        <span class="role-tag" style="background: var(--primary-green);">Активен</span>
+                        {% else %}
+                        <span class="role-tag" style="background: var(--accent-red);">Заблокирован</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; text-align: right;">
+                        {% if user.id != current_user.id %}
+                        <form action="{{ url_for('admin.toggle_user_status', user_id=user.id) }}" method="POST">
+                            <button class="btn-modern" style="padding: 5px 10px; font-size: 11px; background: {{ 'var(--accent-red)' if user.is_active_account else 'var(--primary-blue)' }}; color: white;">
+                                {{ 'Заблокировать' if user.is_active_account else 'Разблокировать' }}
+                            </button>
+                        </form>
+                        {% endif %}
+                    </td>
                 </div>
                 {% endif %}
             </td>

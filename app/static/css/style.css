@@ -31,7 +31,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: 100%; /* Занимает всю ширину контейнера */
-    max-width: 600px; /* Но не шире 600px */
+    max-width: 800px; /* Но не шире 600px */
     margin: 0 auto; /* Центрирование */
     text-align: center;
     box-sizing: border-box;
@@ -178,4 +178,32 @@ h1, h2 {
 
 .btn-logout {
     color: var(--accent-red) !important;
+}
+
+.flash-container {
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+}
+
+.flash-message {
+    background: rgba(231, 76, 60, 0.2); /* Прозрачный красный */
+    border: 1px solid var(--accent-red);
+    color: #ff8a8a;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

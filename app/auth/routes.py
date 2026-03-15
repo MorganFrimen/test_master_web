@@ -9,9 +9,6 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        # Если уже залогинен и админ — на дашборд
-        if current_user.role == 'admin':
-            return redirect(url_for('admin.dashboard'))
         return redirect(url_for('main.index'))
 
     if request.method == 'POST':
@@ -20,13 +17,19 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and user.check_password(password):
+            # ПРОВЕРКА БЛОКИРОВКИ
+            if not user.is_active_account:
+                flash("🚫 Ваш аккаунт заблокирован администратором.")
+                return redirect(url_for('auth.login'))
+            
             login_user(user)
-            # УМНЫЙ РЕДИРЕКТ после логина
+            # Редирект в зависимости от роли
             if user.role == 'admin':
                 return redirect(url_for('admin.dashboard'))
             return redirect(url_for('main.index'))
-            
-        flash("Неверный логин или пароль")
+        
+        flash("❌ Неверный логин или пароль")
+        
     return render_template('auth/login.html')
 
 # --- ЛОГИКА РЕГИСТРАЦИИ (REGISTER) ---

@@ -14,7 +14,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(10), default='user') # 'admin' или 'user'
+    is_active_account = db.Column(db.Boolean, default=True) 
     
+    @property
+    def is_active(self):
+        return self.is_active_account
+
     # Связь с результатами тестов (один ко многим)
     results = db.relationship('TestResult', backref='author', lazy='dynamic')
 

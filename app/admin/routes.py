@@ -33,6 +33,26 @@ def make_admin(user_id):
     flash(f"Пользователь {user.username} теперь администратор.")
     return redirect(url_for('admin.manage_users'))
 
+@admin_bp.route('/user/toggle-status/<int:user_id>', methods=['POST'])
+@login_required
+def toggle_user_status(user_id):
+    if current_user.role != 'admin':
+        return "Доступ запрещен", 403
+        
+    user = User.query.get_or_404(user_id)
+    
+    if user.id == current_user.id:
+        flash("Нельзя заблокировать самого себя!")
+        return redirect(url_for('admin.manage_users'))
+    
+    # Меняем True на False и наоборот
+    user.is_active_account = not user.is_active_account
+    db.session.commit()
+    
+    status = "разблокирован" if user.is_active_account else "заблокирован"
+    flash(f"Пользователь {user.username} {status}.")
+    return redirect(url_for('admin.manage_users'))
+
 # Защищаем весь Blueprint: только админ может сюда заходить
 @admin_bp.before_request
 @login_required

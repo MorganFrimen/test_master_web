@@ -37,8 +37,21 @@
         </nav>
     </header>
 
-    <div class="card">
-        {% block content %}{% endblock %}
-    </div>
+    <main class="content-wrapper">
+        <!-- БЛОК УВЕДОМЛЕНИЙ -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-container">
+            {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
 </body>
 </html>
