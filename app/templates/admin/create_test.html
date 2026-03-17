@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Создание теста{% endblock %}
+
+{% block content %}
+<h1>📝 Новый тест</h1>
+<p style="color: var(--text-gray);">Введите основные данные о тесте</p>
+
+<form method="POST" style="margin-top: 20px;">
+    <input type="text" name="title" placeholder="Название теста (например, Техника безопасности)" required>
+    <textarea name="description" placeholder="Краткое описание для сотрудников..."
+              style="width: 100%; height: 100px; padding: 12px; border-radius: 12px; background: var(--input-bg); color: white; border: none; margin-bottom: 15px; font-family: inherit;"></textarea>
+
+    <select name="category">
+        <option value="Базовый">Общий доступ</option>
+        <option value="Продвинутый">Повышение квалификации</option>
+    </select>
+
+    <button type="submit" class="btn-modern btn-blue" style="width: 100%; margin-top: 10px;">
+        Создать и перейти к вопросам →
+    </button>
+</form>
+
+<a href="{{ url_for('admin.dashboard') }}" class="footer-link">← Отмена</a>
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.models import Test, Question, Option, User # Импортируем наши новые модели
+from datetime import datetime
 from app import db
 
 admin_bp = Blueprint('admin', __name__)
@@ -67,16 +68,36 @@ def dashboard():
     return render_template('admin/dashboard.html', tests=all_tests)
 
 @admin_bp.route('/test/create', methods=['GET', 'POST'])
+@login_required
 def create_test():
+    # 1. Защита: только админ может создавать тесты
+    if current_user.role != 'admin':
+        return "Доступ запрещен", 403
+
     if request.method == 'POST':
         title = request.form.get('title')
         desc = request.form.get('description')
+        category = request.form.get('category') # Получаем из выпадающего списка
+
+        if not title:
+            flash("❌ Название теста не может быть пустым")
+            return redirect(url_for('admin.create_test'))
         
-        new_test = Test(title=title, description=desc)
+        # 2. Создаем тест
+        new_test = Test(title=title, description=desc, category=category)
         db.session.add(new_test)
         db.session.commit()
         
-        flash("Тест создан! Теперь добавьте вопросы.")
-        return redirect(url_for('admin.dashboard'))
+        flash(f"✅ Тест '{title}' создан! Добавьте вопросы.")
+        
+        # 3. УМНЫЙ ПЕРЕХОД: идем сразу к добавлению вопросов
+        # Мы передаем id нового теста, чтобы знать, куда привязывать вопросы
+        return redirect(url_for('admin.add_questions', test_id=new_test.id))
         
     return render_template('admin/create_test.html')
+
+@admin_bp.route('/test/<int:test_id>/questions')
+@login_required
+def add_questions(test_id):
+    test = Test.query.get_or_404(test_id)
+    return f"<h1>Добавление вопросов для теста: {test.title}</h1><p>Скоро здесь будет конструктор вопросов!</p>"
